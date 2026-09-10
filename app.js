@@ -157,16 +157,17 @@ while(opc !== '0'){
     }
 
 const teachers=[];
-    function addTeacher(){
+
+async function addTeacher(){
         console.clear();
-        console.log("*".repeat(20)+ 'Managemente of ACME SCHOOL'+ "*".repeat(20));
+        console.log("*".repeat(20)+ 'Management of ACME SCHOOL'+ "*".repeat(20));
         console.log("==================== Add Teacher ====================");
         const id=await rl.question(' Enter teacher ID:');
-        const firstName = await rl.question(' Enter teacher first name: ');
-        const lastName = await rl.question(' Enter teacher last name: ');
-        const identificationTypeId= await rl.question(' Enter teacher ');
-        const identificationNumber = await rl.question(' Enter teacher identification number: ');
-        const email = await rl.question(' Enter teacher email: ');
+        const firstName= await rl.question(' --> Enter teacher first name: ');
+        const lastName = await rl.question(' --> Enter teacher last name: ');
+        const identificationTypeId= await rl.question(' --> Enter teacher identification type ID: ');
+        const identificationNumber = await rl.question(' --> Enter teacher identification number: ');
+        const email = await rl.question(' --> Enter teacher email: ');
         teachers.push(new Teacher(id, firstName, lastName, identificationTypeId, identificationNumber, email));
         console.log(' Teacher added successfully!');
     }
