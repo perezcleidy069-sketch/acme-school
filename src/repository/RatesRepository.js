@@ -50,7 +50,7 @@ class RatesRespository{
     async Delete(id){
         const db = await main();
         const query = 'DELETE FROM Rates WHERE = ?';
-        const [resulado] = await db.execute(query, [id])
+        const [resultado] = await db.execute(query, [id])
 
         return resultado.affectedRows > 0;
     }
