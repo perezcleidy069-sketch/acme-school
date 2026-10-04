@@ -35,3 +35,5 @@ class CourseRepository{
 
     }
 }
+
+export default new CourseRepository();
