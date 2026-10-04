@@ -19,7 +19,7 @@ class InscriptionRepository{
         }
     }
 
-    async GetAll(inscription){
+    async GetAll(){
         const db = await ConnectData();
         const query = 'SELECT * FROM Inscriptions';
         const [resultado] = await db.execute(query)
