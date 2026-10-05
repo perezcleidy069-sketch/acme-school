@@ -11,16 +11,18 @@ y temas.
 
 ## Configuración
 
-Define estas variables en el entorno antes de iniciar la aplicación:
+La aplicación carga automáticamente un archivo `.env` en la raíz del proyecto.
+Puedes crearlo usando `.env.example` como referencia. También puedes definir
+las variables en el entorno:
 
-- `MYSQL_HOST` (opcional, predeterminado: `localhost`)
-- `MYSQL_PORT` (opcional, predeterminado: `3306`)
-- `MYSQL_USER` (obligatoria)
-- `MYSQL_PASSWORD` (opcional si la cuenta no tiene contraseña)
-- `MYSQL_DATABASE` (opcional, predeterminado: `acme_school`)
+- `DB_HOST` (opcional, predeterminado: `localhost`)
+- `DB_USER` (opcional, usa el usuario local configurado)
+- `DB_PASSWORD` (opcional, usa la contraseña local configurada)
+- `DB_NAME` (opcional, predeterminado: `acme_school`)
+- `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD` y `MYSQL_DATABASE` también son compatibles.
 
-La aplicación no cambia la contraseña ni los usuarios de MySQL. Mantén las
-credenciales en el entorno local y no las agregues al repositorio.
+No subas el archivo `.env` al repositorio. La aplicación no modifica usuarios
+ni contraseñas de MySQL.
 
 ## Ejecución
 

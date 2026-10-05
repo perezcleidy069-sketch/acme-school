@@ -30,7 +30,8 @@ export async function main() {
   const readline = createInterface({ input: process.stdin, output: process.stdout });
 
   try {
-    await ConnectData().query("SELECT 1");
+    const database = await ConnectData();
+    await database.query("SELECT 1");
     console.log("Conexión a MySQL establecida.\n");
     const services = ServiceFactory.create();
 
