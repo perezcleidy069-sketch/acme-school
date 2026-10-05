@@ -1,0 +1,25 @@
+{
+  "name": "acme-school",
+  "version": "1.0.0",
+  "description": "Aplicación de gestion de una escuela",
+  "homepage": "https://github.com/perezcleidy069-sketch/acme-school#readme",
+  "bugs": {
+    "url": "https://github.com/perezcleidy069-sketch/acme-school/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perezcleidy069-sketch/acme-school.git"
+  },
+  "license": "ISC",
+  "author": "Cleidy Priscila Pérez Casia",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.5",
+    "mysql2": "^3.24.5"
+  }
+}

@@ -1,0 +1,67 @@
+import {ConnectData} from '../config/database.js';
+
+class TopicRepository{
+    async Create(topic){
+        const db = await ConnectData();
+        const query= 'INSERT INTO Topics (courseId, code, title, description, active) VALUES (?, ?, ?, ?, ?)';
+        const [resultado]= await db.execute(query, [
+            topic.courseId,
+            topic.code,
+            topic.title,
+            topic.description,
+            topic.active
+        ])
+
+        return{
+            id: resultado.insertId,
+            courseId: topic.courseId,
+            code: topic.code,
+            title: topic.title,
+            description: topic.description,
+            active: topic.active
+        }
+    }
+    async GetAll(){
+        const db = await ConnectData();
+        const query = 'SELECT * FROM Topics';
+        const [resultado] = await db.execute(query)
+
+        return resultado;
+    }
+
+    async GetId(id){
+        const db= await ConnectData();
+        const query = 'SELECT * FROM Topics WHERE id = ?';
+        const [fila] = await db.execute(query, [id])
+
+        if(fila.length === 0){
+            return null;
+        }
+
+        return fila[0]
+    }
+
+    async Update(topic){
+        const db = await ConnectData();
+        const query = 'UPDATE Topics SET courseId = ?, code = ?, title = ?, description = ?, active = ? WHERE id = ?';
+        const [resultado] = await db.execute(query, [
+            topic.courseId,
+            topic.code,
+            topic.title,
+            topic.description,
+            topic.active,
+            topic.id
+        ])
+        return resultado.affectedRows >0;
+    }
+
+    async Delete(id){
+        const db = await ConnectData();
+        const query = 'DELETE FROM Topics WHERE id = ?';
+        const [resultado] = await db.execute(query, [id])
+
+        return resultado.affectedRows>0
+    }
+}
+
+export default new TopicRepository();
