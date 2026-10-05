@@ -31,10 +31,10 @@ class TopicRepository{
 
     async GetId(id){
         const db= await ConnectData();
-        const query = 'SELECT * FORM Topics WHERE = ?';
+        const query = 'SELECT * FROM Topics WHERE id = ?';
         const [fila] = await db.execute(query, [id])
 
-        if(fila.lenght === 0){
+        if(fila.length === 0){
             return null;
         }
 
@@ -43,23 +43,25 @@ class TopicRepository{
 
     async Update(topic){
         const db = await ConnectData();
-        const query = 'UPDATE Topics SET code =?, title=?, description=?, active=? WHERE= ?';
+        const query = 'UPDATE Topics SET courseId = ?, code = ?, title = ?, description = ?, active = ? WHERE id = ?';
         const [resultado] = await db.execute(query, [
+            topic.courseId,
             topic.code,
             topic.title,
             topic.description,
-            topic.active
+            topic.active,
+            topic.id
         ])
         return resultado.affectedRows >0;
     }
 
     async Delete(id){
         const db = await ConnectData();
-        const query = 'DELETE FROM Topics WHERE= ?';
+        const query = 'DELETE FROM Topics WHERE id = ?';
         const [resultado] = await db.execute(query, [id])
 
         return resultado.affectedRows>0
     }
 }
 
-export default TopicRepository;
+export default new TopicRepository();

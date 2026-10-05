@@ -3,7 +3,7 @@ import {ConnectData} from '../config/database.js';
 class InscriptionRepository{
     async Create(inscription){
         const db = await ConnectData();
-        const query = 'INSERT INTO Inscriptions (courseScheduledId, studentId, registerDate, active) VALUES(?, ?, ?, ?)';
+        const query = 'INSERT INTO Inscriptions (courseScheduleId, studentId, registerDate, active) VALUES(?, ?, ?, ?)';
         const [resultado] = await db.execute(query, [
             inscription.courseScheduleId,
             inscription.studentId,
@@ -28,10 +28,10 @@ class InscriptionRepository{
 
     async GetId(id){
         const db = await ConnectData();
-        const query = 'SELECT * FROM Inscriptions WHERE = ?';
+        const query = 'SELECT * FROM Inscriptions WHERE id = ?';
         const [fila] = await db.execute(query, [id])
 
-        if(fila.lenght === 0){
+        if(fila.length === 0){
             return null
         }
 
@@ -42,18 +42,20 @@ class InscriptionRepository{
 
     async Update(inscription){
         const db= await ConnectData();
-        const query = 'UPDATE Inscriptions SET courseScheduleId = ?, registerDate= ?, active = ? WHERE = ?';
+        const query = 'UPDATE Inscriptions SET courseScheduleId = ?, studentId = ?, registerDate = ?, active = ? WHERE id = ?';
         const [resultado] = await db.execute(query, [
             inscription.courseScheduleId,
+            inscription.studentId,
             inscription.registerDate,
-            inscription.active
+            inscription.active,
+            inscription.id
         ]);
         return resultado.affectedRows > 0;
     }
 
     async Delete(id){
         const db = await ConnectData();
-        const query = 'DELETE FROM Inscriptions WHERE = ?';
+        const query = 'DELETE FROM Inscriptions WHERE id = ?';
         const [resultado] = await db.execute(query, [id])
 
         return resultado.affectedRows > 0;
@@ -62,4 +64,4 @@ class InscriptionRepository{
 }
 
 
-export default InscriptionRepository;
+export default new InscriptionRepository();

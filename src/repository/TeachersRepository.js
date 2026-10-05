@@ -1,8 +1,8 @@
-import {main} from '../config/database.js';
+import { ConnectData } from '../config/database.js';
 
 class TeacherRepository{
     async Create(teacher){
-        const db = await main();
+        const db = await ConnectData();
         const query = 'INSERT INTO Teachers(firstname, lastName, identificationTypeId, identificationNumber, email) VALUES (?, ?, ?, ?, ?)';
         const [resultado] = await db.execute(query, [
             teacher.firstname,
@@ -13,7 +13,7 @@ class TeacherRepository{
         ]);
         return{
             id: resultado.insertId,
-            firstname: teacher.firstname,
+            firstName: teacher.firstName,
             lastName: teacher.lastName,
             identificationTypeId: teacher.identificationTypeId,
             identificationNumber: teacher.identificationNumber,
@@ -22,14 +22,14 @@ class TeacherRepository{
 
     }
         async GetAll(){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'SELECT * FROM Teachers';
             const [resultado] = await db.execute(query)
             return resultado
         }
 
         async GetId(id){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'SELECT * FROM Teachers WHERE id = ?';
             const [fila] = await db.execute(query, [id])
             
@@ -40,9 +40,11 @@ class TeacherRepository{
         }
 
         async Update(teacher){
-            const db = await main();
-            const query = 'UPDATE Teachers SET  identificationTypeId = ?, identificationNumber = ?, email = ? WHERE id = ?';
+            const db = await ConnectData();
+            const query = 'UPDATE Teachers SET firstName = ?, lastName = ?, identificationTypeId = ?, identificationNumber = ?, email = ? WHERE id = ?';
             const [resultado] = await db.execute(query, [
+                teacher.firstName,
+                teacher.lastName,
                 teacher.identificationTypeId,
                 teacher.identificationNumber,
                 teacher.email,
@@ -51,7 +53,7 @@ class TeacherRepository{
             return resultado.affectedRows > 0;
         }
         async Delete(id){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'DELETE FROM Teachers WHERE id = ?';
             const [resultado] = await db.execute(query, [id]);
             return resultado.affectedRows > 0;

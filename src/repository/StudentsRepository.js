@@ -1,16 +1,17 @@
-import {main} from '../config/database.js';
+import { ConnectData } from '../config/database.js';
 
 class StudentRepository{
     async Create(student){
-        const db = await main();
-        const query = 'INSERT INTO Students(code, firstname, lastName, identificationTypeId, identificationNumber, gender, email, address, cityId) VALUES (?, ?, ?)';
+        const db = await ConnectData();
+        const query = 'INSERT INTO Students(code, firstName, lastName, identificationTypeId, identificationNumber, gender, birthDate, email, address, cityId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const [resultado] = await db.execute(query, [
             student.code,
-            student.firstname,
+            student.firstName,
             student.lastName,
             student.identificationTypeId,
             student.identificationNumber,
             student.gender,
+            student.birthDate,
             student.email,
             student.address,
             student.cityId
@@ -18,11 +19,12 @@ class StudentRepository{
         return{
             id: resultado.insertId,
             code: student.code,
-            firstname: student.firstname,
+            firstName: student.firstName,
             lastName: student.lastName,
-            identificationTypeId: stdent.identificationTypeId,
+            identificationTypeId: student.identificationTypeId,
             identificationNumber: student.identificationNumber,
             gender: student.gender,
+            birthDate: student.birthDate,
             email: student.email,
             address: student.address,
             cityId: student.cityId
@@ -30,14 +32,14 @@ class StudentRepository{
 
     }
         async GetAll(){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'SELECT * FROM Students';
             const [resultado] = await db.execute(query)
             return resultado
         }
 
         async GetId(id){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'SELECT * FROM Students WHERE id = ?';
             const [fila] = await db.execute(query, [id])
             
@@ -48,12 +50,17 @@ class StudentRepository{
         }
 
         async Update(student){
-            const db = await main();
-            const query = 'UPDATE Students SET code = ?, identificationTypeId = ?, identificationNumber = ?, address = ?, cityId = ? WHERE id = ?';
+            const db = await ConnectData();
+            const query = 'UPDATE Students SET code = ?, firstName = ?, lastName = ?, identificationTypeId = ?, identificationNumber = ?, gender = ?, birthDate = ?, email = ?, address = ?, cityId = ? WHERE id = ?';
             const [resultado] = await db.execute(query, [
                 student.code,
+                student.firstName,
+                student.lastName,
                 student.identificationTypeId,
                 student.identificationNumber,
+                student.gender,
+                student.birthDate,
+                student.email,
                 student.address,
                 student.cityId,
                 student.id
@@ -61,7 +68,7 @@ class StudentRepository{
             return resultado.affectedRows > 0;
         }
         async Delete(id){
-            const db = await main();
+            const db = await ConnectData();
             const query = 'DELETE FROM Students WHERE id = ?';
             const [resultado] = await db.execute(query, [id]);
             return resultado.affectedRows > 0;

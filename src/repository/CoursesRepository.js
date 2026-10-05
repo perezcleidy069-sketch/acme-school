@@ -1,6 +1,4 @@
-import ConnectData from '../config/database.js';
-
-export {ConnectData} from '../config/database.js';
+import { ConnectData } from '../config/database.js';
 
 class CourseRepository{
     async Create(course){

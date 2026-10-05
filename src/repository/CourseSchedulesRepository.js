@@ -33,7 +33,7 @@ class CourseScheduleRepository{
 
     async GetId(id){
         const db= await ConnectData();
-        const query = 'SELECT FROM CourseSchedules WHERE =?';
+        const query = 'SELECT * FROM CourseSchedules WHERE id = ?';
         const [fila] = await db.execute(query, [id])
 
         if(fila.length===0){
@@ -45,13 +45,15 @@ class CourseScheduleRepository{
 
     async Update(schedule){
         const db= await ConnectData();
-        const query = 'UPDATE CourseSchedules SET teacherId =?, classrromId=?, startDate=?, endDate=?, active=?';
+        const query = 'UPDATE CourseSchedules SET courseId = ?, teacherId = ?, classroomId = ?, startDate = ?, endDate = ?, active = ? WHERE id = ?';
         const [resultado]= await db.execute(query, [
+            schedule.courseId,
             schedule.teacherId,
             schedule.classroomId,
             schedule.startDate,
             schedule.endDate,
-            schedule.active
+            schedule.active,
+            schedule.id
         ]);
 
         return resultado.affectedRows>0
@@ -59,11 +61,11 @@ class CourseScheduleRepository{
 
     async Delete(id){
         const db = await ConnectData();
-        const query= 'DELETE FROM CourseSchedules WHERE=?';
+        const query= 'DELETE FROM CourseSchedules WHERE id = ?';
         const [resultado]= await db.execute(query, [id])
 
         return resultado.affectedRows>0
     }
 }
 
-export default CourseScheduleRepository;
+export default new CourseScheduleRepository();

@@ -1,13 +1,21 @@
 export class IdentificationTypeService {
     constructor(IdentificationTypeRepository) {
         this.IdentificationTypeRepository = IdentificationTypeRepository;
+        this.fields = [
+            { name: "code", label: "Código", type: "string", required: true },
+            { name: "name", label: "Nombre", type: "string", required: true },
+            { name: "description", label: "Descripción", type: "string", required: false }
+        ];
     }
 
     async Create(code, name, description) {
+        if (code && typeof code === "object") {
+            ({ code, name, description } = code);
+        }
         // Validaciones de presencia
         if (!code || typeof code !== 'string' || code.trim() === '') throw new Error("Code is required");
         if (!name || typeof name !== 'string' || name.trim() === '') throw new Error("Name is required");
-        if (!description || typeof description !== 'string' || description.trim() === '') throw new Error("Description is required");
+        if (description !== undefined && description !== null && typeof description !== 'string') throw new Error("Description must be text");
 
         const trimmedCode = code.trim();
         const trimmedName = name.trim();
@@ -22,7 +30,7 @@ export class IdentificationTypeService {
         const identificationType = {
             code: trimmedCode,
             name: trimmedName,
-            description: description.trim()
+            description: typeof description === 'string' ? description.trim() || null : null
         };
 
         return await this.IdentificationTypeRepository.Create(identificationType);
@@ -42,11 +50,14 @@ export class IdentificationTypeService {
     }
 
     async Update(id, code, name, description) {
+        if (code && typeof code === "object") {
+            ({ code, name, description } = code);
+        }
         // 1. Validar ID y campos requeridos
         if (!id || !Number.isInteger(id) || id <= 0) throw new Error("ID must be a valid positive integer");
         if (!code || typeof code !== 'string' || code.trim() === '') throw new Error("Code is required");
         if (!name || typeof name !== 'string' || name.trim() === '') throw new Error("Name is required");
-        if (!description || typeof description !== 'string' || description.trim() === '') throw new Error("Description is required");
+        if (description !== undefined && description !== null && typeof description !== 'string') throw new Error("Description must be text");
 
         // 2. Verificar que el registro exista
         const currentRecord = await this.IdentificationTypeRepository.GetID(id);
@@ -71,7 +82,7 @@ export class IdentificationTypeService {
             id,
             code: trimmedCode,
             name: trimmedName,
-            description: description.trim()
+            description: typeof description === 'string' ? description.trim() || null : null
         };
 
         return await this.IdentificationTypeRepository.Update(id, updatedIdentificationType);

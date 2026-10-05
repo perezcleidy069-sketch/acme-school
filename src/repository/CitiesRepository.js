@@ -3,15 +3,15 @@ import {ConnectData} from '../config/database.js';
 class CitiesRepository{
     async Create(city){
         const db = await ConnectData();
-        const query = 'INSERT INTO Cities (name, countryId) VALUES (?, ?)';
+        const query = 'INSERT INTO Cities (code, name) VALUES (?, ?)';
         const [resultado] = await db.execute(query, [
+            city.code,
             city.name,
-            city.countryId
         ]);
         return{
             id: resultado.insertId,
+            code: city.code,
             name: city.name,
-            countryId: city.countryId
         };
     }
 
@@ -36,10 +36,10 @@ class CitiesRepository{
 
     async Update(city){
         const db = await ConnectData();
-        const query = 'UPDATE Cities SET name = ?, countryId = ? WHERE id = ?';
+        const query = 'UPDATE Cities SET code = ?, name = ? WHERE id = ?';
         const [resultado] = await db.execute(query, [
+            city.code,
             city.name,
-            city.countryId,
             city.id
         ]);
 
